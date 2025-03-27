@@ -1,8 +1,13 @@
 package com.example.ITdeviceMarket.repository;
-import com.example.ITdeviceMarket.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-        Optional<User> findByEmail(String email);
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.ITdeviceMarket.model.User;
+
+@Repository
+public interface UserRepository extends JpaRepository<User,Integer>{
+
+        User findByEmail( String email);
+
 }

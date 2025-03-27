@@ -26,6 +26,7 @@ public class User {
     public User() {}
 
     public User(Long id, String username, String email, String password, String role) {
+        super();
         this.id = id;
         this.username = username;
         this.email = email;
@@ -72,4 +73,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }

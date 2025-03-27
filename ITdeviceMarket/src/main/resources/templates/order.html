@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Order IT Devices</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <h2 class="mt-5">Order IT Devices</h2>
+    <form action="/order" method="POST" th:action="@{/order}" th:object="${order}">
 
+        <!-- Device Selection -->
+        <div class="form-group">
+            <label>Select Device</label>
+            <div>
+                <input type="radio" id="android" name="deviceType" value="android" th:checked="${order.deviceType == 'android'}">
+                <label for="android">Android ($900)</label>
+            </div>
+            <div>
+                <input type="radio" id="iphone" name="deviceType" value="iphone" th:checked="${order.deviceType == 'iphone'}">
+                <label for="iphone">iPhone ($950)</label>
+            </div>
+        </div>
+
+        <!-- Device Color Selection -->
+        <div class="form-group">
+            <label for="deviceColor">Select Color</label>
+            <select id="deviceColor" name="deviceColor" class="form-control" th:value="${order.deviceColor}">
+                <option value="Black">Black</option>
+                <option value="White">White</option>
+                <option value="Silver">Silver</option>
+            </select>
+        </div>
+
+        <!-- Quantity -->
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" class="form-control" min="1" th:value="${order.quantity}">
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,14 +1,18 @@
 package com.example.ITdeviceMarket.security;
-import com.example.ITdeviceMarket.service.UserService;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import com.example.ITdeviceMarket.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 //        @Bean
 //        public UserDetailsService userDetailsService() {
@@ -22,13 +26,13 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/register").permitAll() // Publicly accessible
+            http.authorizeHttpRequests(authorize -> {
+                        authorize.requestMatchers("/register", "/login").permitAll() // Publicly accessible
                             .requestMatchers("/admin").hasAuthority("ADMIN") // Admin-only page
                             .requestMatchers("/order", "/receipt").hasAnyAuthority("USER", "ADMIN") // Protected pages
-                            .anyRequest().authenticated() // All other requests require authentication
-                    )
+                            .requestMatchers("/error/**").permitAll()
+                            .anyRequest().authenticated(); // All other requests require authentication
+                    })
                     .formLogin(login -> login
                             .loginPage("/login") // Custom login page
                             .defaultSuccessUrl("/order", true) // Redirect after successful login
