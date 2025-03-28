@@ -1,15 +1,32 @@
 package com.example.ITdeviceMarket.model;
 
-public class Device {
+import jakarta.persistence.*;
+
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String device_type;
     private String device_color;
     private int device_quantity;
 
-    public Device() {}
-    public Device(String device_type, String device_color, int device_quantity) {
+    public Order() {}
+    public Order(long id, String device_type, String device_color, int device_quantity) {
+        super();
+        this.id = id;
         this.device_type = device_type;
         this.device_color = device_color;
         this.device_quantity = device_quantity;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getDevice_type() {
