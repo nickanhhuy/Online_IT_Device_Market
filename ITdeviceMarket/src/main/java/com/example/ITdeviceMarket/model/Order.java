@@ -11,14 +11,24 @@ public class Order {
     private String device_type;
     private String device_color;
     private int device_quantity;
+    private double total_price;
 
     public Order() {}
-    public Order(long id, String device_type, String device_color, int device_quantity) {
+    public Order(long id, String device_type, String device_color, int device_quantity, double total_price) {
         super();
         this.id = id;
         this.device_type = device_type;
         this.device_color = device_color;
         this.device_quantity = device_quantity;
+        this.total_price = total_price;
+    }
+
+    public double getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(double total_price) {
+        this.total_price = total_price;
     }
 
     public long getId() {
@@ -52,4 +62,5 @@ public class Order {
     public void setDevice_quantity(int device_quantity) {
         this.device_quantity = device_quantity;
     }
+
 }
