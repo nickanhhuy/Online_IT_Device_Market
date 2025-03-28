@@ -28,8 +28,8 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http.authorizeHttpRequests(authorize -> {
                         authorize.requestMatchers("/register", "/login").permitAll() // Publicly accessible
-                            .requestMatchers("/admin").hasAuthority("ADMIN") // Admin-only page
-                            .requestMatchers("/order", "/receipt").hasAnyAuthority("USER", "ADMIN") // Protected pages
+                            .requestMatchers("/admin").hasRole("ADMIN") // Admin-only page
+                            .requestMatchers("/order", "/receipt").hasAnyRole("USER", "ADMIN") // Protected pages
                             .requestMatchers("/error/**").permitAll()
                             .anyRequest().authenticated(); // All other requests require authentication
                     })

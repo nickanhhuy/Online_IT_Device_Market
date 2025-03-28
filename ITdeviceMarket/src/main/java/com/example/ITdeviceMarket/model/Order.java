@@ -2,16 +2,29 @@ package com.example.ITdeviceMarket.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
+@Table(name = "device_order")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private String device_type;
     private String device_color;
     private int device_quantity;
     private double total_price;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Order() {}
     public Order(long id, String device_type, String device_color, int device_quantity, double total_price) {

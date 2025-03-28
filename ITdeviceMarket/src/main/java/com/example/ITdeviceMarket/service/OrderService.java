@@ -22,7 +22,11 @@ public class OrderService {
         order.setTotal_price(price * order.getDevice_quantity());
         return orderRepository.save(order);
     }
-    public List<Order> findAllOrders() {
-        return orderRepository.findAll();
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(Math.toIntExact(orderId)).orElse(null);
+    }
+
+    public List<Order> getOrdersByUser(User user) {
+        return orderRepository.findByUser(user);
     }
 }
