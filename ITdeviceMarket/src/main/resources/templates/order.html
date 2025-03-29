@@ -9,16 +9,16 @@
 <form th:action="@{/order}" method="post" th:object="${order}">
     <div>
         <label>Device Type:</label><br>
-        <input type="radio" value="android" th:field="*{device_type}"/> Android ($900)
-        <input type="radio" value="iphone" th:field="*{device_type}"/> iPhone ($950)
+        <input type="radio" value="android" name="device" th:field="*{device_type}"/> Android ($900)
+        <input type="radio" value="iphone" name="device" th:field="*{device_type}"/> iPhone ($950)
     </div>
 
     <div>
         <label for="deviceColor">Device Color:</label>
         <select id="deviceColor" name="deviceColor" th:field="*{device_color}">
-            <option value="Black">Black</option>
-            <option value="White">White</option>
-            <option value="Blue">Blue</option>
+            <option name="deviceColor" value="Black">Black</option>
+            <option name="deviceColor" value="White">White</option>
+            <option name="deviceColor" value="Blue">Blue</option>
         </select>
     </div>
 

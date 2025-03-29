@@ -2,78 +2,88 @@ package com.example.ITdeviceMarket.model;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "device_order")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    private String device_type;
-    private String device_color;
-    private int device_quantity;
-    private double total_price;
+    private Integer id;
 
-    public User getUser() {
-        return user;
-    }
+    @Column(nullable = false)
+    private String username;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @Column(nullable = false)
+    private String deviceType;
 
+    @Column(nullable = false)
+    private String deviceColor;
+
+    @Column(nullable = false)
+    private int deviceQuantity;
+
+    @Column(nullable = false)
+    private double totalPrice;
+
+    // Default constructor (needed by JPA)
     public Order() {}
-    public Order(long id, String device_type, String device_color, int device_quantity, double total_price) {
-        super();
-        this.id = id;
-        this.device_type = device_type;
-        this.device_color = device_color;
-        this.device_quantity = device_quantity;
-        this.total_price = total_price;
+
+    // Constructor with all parameters
+    public Order(String username, String deviceType, String deviceColor, int deviceQuantity, double totalPrice) {
+        this.username = username;
+        this.deviceType = deviceType;
+        this.deviceColor = deviceColor;
+        this.deviceQuantity = deviceQuantity;
+        this.totalPrice = totalPrice;
     }
 
-    public double getTotal_price() {
-        return total_price;
-    }
-
-    public void setTotal_price(double total_price) {
-        this.total_price = total_price;
-    }
-
-    public long getId() {
+    // Getters and Setters
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getDevice_type() {
-        return device_type;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDevice_type(String device_type) {
-        this.device_type = device_type;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDevice_type() {
+        return deviceType;
+    }
+
+    public void setDevice_type(String deviceType) {
+        this.deviceType = deviceType;
     }
 
     public String getDevice_color() {
-        return device_color;
+        return deviceColor;
     }
 
-    public void setDevice_color(String device_color) {
-        this.device_color = device_color;
+    public void setDevice_color(String deviceColor) {
+        this.deviceColor = deviceColor;
     }
 
     public int getDevice_quantity() {
-        return device_quantity;
+        return deviceQuantity;
     }
 
-    public void setDevice_quantity(int device_quantity) {
-        this.device_quantity = device_quantity;
+    public void setDevice_quantity(int deviceQuantity) {
+        this.deviceQuantity = deviceQuantity;
     }
 
+    public double getTotal_price() {
+        return totalPrice;
+    }
+
+    public void setTotal_price(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
+

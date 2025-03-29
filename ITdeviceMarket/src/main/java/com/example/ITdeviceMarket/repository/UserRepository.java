@@ -7,7 +7,5 @@ import com.example.ITdeviceMarket.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer>{
-
-        User findByEmail( String email);
-
+        User findByEmail(String email);
 }

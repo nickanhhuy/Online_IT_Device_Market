@@ -2,6 +2,7 @@ package com.example.ITdeviceMarket.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -29,21 +30,10 @@ public class SecurityConfig {
             http.authorizeHttpRequests(authorize -> {
                         authorize.requestMatchers("/register", "/login").permitAll() // Publicly accessible
                             .requestMatchers("/admin").hasRole("ADMIN") // Admin-only page
-                            .requestMatchers("/order", "/receipt").hasAnyRole("USER", "ADMIN") // Protected pages
+                            .requestMatchers("/order", "/receipt", "history").hasAnyRole("USER", "ADMIN") // Protected pages
                             .requestMatchers("/error/**").permitAll()
                             .anyRequest().authenticated(); // All other requests require authentication
-                    })
-                    .formLogin(login -> login
-                            .loginPage("/login") // Custom login page
-                            .defaultSuccessUrl("/order", true) // Redirect after successful login
-                            .permitAll()
-                    )
-                    .logout(logout -> logout
-                            .logoutUrl("/logout")
-                            .logoutSuccessUrl("/login?logout") // Redirect after logout
-                            .permitAll()
-                    );
-
+                    }).formLogin(Customizer.withDefaults());
             return http.build();
         }
 }

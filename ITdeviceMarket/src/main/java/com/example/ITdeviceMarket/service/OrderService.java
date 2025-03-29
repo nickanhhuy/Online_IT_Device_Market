@@ -23,7 +23,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
     public Order getOrderById(Long orderId) {
-        return orderRepository.findById(Math.toIntExact(orderId)).orElse(null);
+        return orderRepository.findByOrderId(orderId);
     }
 
     public List<Order> getOrdersByUser(User user) {
