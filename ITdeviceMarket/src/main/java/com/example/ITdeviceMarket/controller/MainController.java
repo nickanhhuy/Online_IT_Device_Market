@@ -4,6 +4,8 @@ import com.example.ITdeviceMarket.model.Order;
 import com.example.ITdeviceMarket.model.User;
 import com.example.ITdeviceMarket.repository.OrderRepository;
 import com.example.ITdeviceMarket.repository.UserRepository;
+import com.example.ITdeviceMarket.service.OrderService;
+import com.example.ITdeviceMarket.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,10 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderService orderService;
 
     // Home page
     @GetMapping("/")
@@ -37,19 +39,15 @@ public class MainController {
     public String registerUser(@RequestParam String name,
                                @RequestParam String email,
                                @RequestParam String password,
-                               @RequestParam String role) {
-
-        if (userRepository.findByEmail(email) != null) {
-            return "redirect:/register?error=Email already exists";
-        }
-
+                               @RequestParam String role,
+                               Model model) {
         User user = new User();
         user.setUsername(name);
         user.setEmail(email);
         user.setPassword(password);
         user.setRole(role);
 
-        userRepository.save(user);
+        userService.registerUser(user);
         return "redirect:/login";
     }
 
@@ -60,18 +58,20 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam String email,
+    public String loginUser(@RequestParam String username,
+                            @RequestParam String email,
                             @RequestParam String password,
+                            @RequestParam String role,
                             HttpSession session) {
 
-        User user = userRepository.findByEmail(email);
+        User user = new User(username, email, password, role);
 
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("username", user.getEmail());
             session.setAttribute("role", user.getRole());
             return "redirect:/order";
         }
-
+        userService.registerUser(user);
         return "redirect:/login?error=Invalid credentials";
     }
 
@@ -113,7 +113,7 @@ public class MainController {
         order.setDevice_quantity(quantity);
         order.setTotal_price(totalAmount);
 
-        orderRepository.save(order);
+        orderService.generateOrder(order);
         return "redirect:/receipt";
     }
 
@@ -126,7 +126,7 @@ public class MainController {
             return "redirect:/login";
         }
 
-        List<Order> orders = orderRepository.findByUsername(username);
+        List<Order> orders = orderService.getOrdersByUsername(username);
         model.addAttribute("orders", orders);
 
         double totalAmount = orders.stream().mapToDouble(Order::getTotal_price).sum();
@@ -136,7 +136,7 @@ public class MainController {
     }
 
     // Order history
-    @GetMapping("/order-history")
+    @GetMapping("/history")
     public String showOrderHistory(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
 
@@ -144,9 +144,9 @@ public class MainController {
             return "redirect:/login";
         }
 
-        List<Order> orders = orderRepository.findByUsername(username);
+        List<Order> orders = orderService.getOrdersByUsername(username);
         model.addAttribute("orders", orders);
-        return "order-history";
+        return "history";
     }
 
     // Admin page (Admin only)
@@ -158,7 +158,7 @@ public class MainController {
             return "redirect:/login";
         }
 
-        List<Order> orders = orderRepository.findAll();
+        List<Order> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
 
         double totalSales = orders.stream().mapToDouble(Order::getTotal_price).sum();

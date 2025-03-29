@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 
 @Service
@@ -36,16 +35,16 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(email);
         UserBuilder userBuilder = org.springframework.security.core.userdetails.User.withUsername(email);
         return userBuilder
-                .username(user.getUsername())
+                .username(user.getEmail())
                 .password(user.getPassword())
                 .roles(user.getRole())
                 .build();
     }
 
-    // Find user by email
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+//    // Find user by email
+//    public User findByEmail(String email) {
+//        return userRepository.findByEmail(email);
+//    }
 }
 
 
