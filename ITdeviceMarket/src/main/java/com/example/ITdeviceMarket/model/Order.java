@@ -37,7 +37,6 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    // Getters and Setters
     public Integer getId() {
         return id;
     }

@@ -6,6 +6,7 @@ import com.example.ITdeviceMarket.repository.OrderRepository;
 import com.example.ITdeviceMarket.repository.UserRepository;
 import com.example.ITdeviceMarket.service.OrderService;
 import com.example.ITdeviceMarket.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,44 +36,27 @@ public class MainController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@RequestParam String name,
-                               @RequestParam String email,
-                               @RequestParam String password,
-                               @RequestParam String role,
-                               Model model) {
-        User user = new User();
-        user.setUsername(name);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setRole(role);
 
-        userService.registerUser(user);
-        return "redirect:/login";
-    }
 
     // Login page
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "login";
-    }
 
-    @PostMapping("/login")
-    public String loginUser(@RequestParam String username,
+
+    @PostMapping("/register")
+    public String loginUser(@RequestParam String name,
                             @RequestParam String email,
                             @RequestParam String password,
                             @RequestParam String role,
-                            HttpSession session) {
+                            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = new User(name, email, password, role);
 
-        User user = new User(username, email, password, role);
 
-        if (user != null && user.getPassword().equals(password)) {
-            session.setAttribute("username", user.getEmail());
-            session.setAttribute("role", user.getRole());
-            return "redirect:/order";
-        }
+        session.setAttribute("username", user.getEmail());
+        session.setAttribute("role", user.getRole());
+
+
         userService.registerUser(user);
-        return "redirect:/login?error=Invalid credentials";
+        return "redirect:/order";
     }
 
     // Logout
@@ -85,35 +69,28 @@ public class MainController {
     // Order page (User & Admin only)
     @GetMapping("/order")
     public String showOrderPage(HttpSession session) {
-        if (session.getAttribute("username") == null) {
-            return "redirect:/login";
-        }
+
         return "order";
     }
 
     @PostMapping("/order")
     public String placeOrder(@RequestParam String device,
-                             @RequestParam String color,
-                             @RequestParam int quantity,
-                             HttpSession session) {
-
+                             @RequestParam String deviceColor,
+                             @RequestParam int deviceQuantity,
+                             HttpServletRequest request,
+                             Model model) {
+        HttpSession session = request.getSession();
         String username = (String) session.getAttribute("username");
 
-        if (username == null || quantity <= 0) {
-            return "redirect:/order?error=Invalid order";
-        }
 
         double price = device.equalsIgnoreCase("android") ? 900 : 950;
-        double totalAmount = price * quantity;
+        double totalAmount = price * deviceQuantity;
 
-        Order order = new Order();
-        order.setUsername(username);
-        order.setDevice_type(device);
-        order.setDevice_color(color);
-        order.setDevice_quantity(quantity);
-        order.setTotal_price(totalAmount);
+        Order order = new Order(username,device,deviceColor,deviceQuantity,totalAmount);
+
 
         orderService.generateOrder(order);
+        model.addAttribute("order", order);
         return "redirect:/receipt";
     }
 

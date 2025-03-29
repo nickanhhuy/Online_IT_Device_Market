@@ -6,25 +6,25 @@
 <body>
 <h2>Order IT Device</h2>
 
-<form th:action="@{/order}" method="post" th:object="${order}">
+<form th:action="@{/order}" method="post">
     <div>
         <label>Device Type:</label><br>
-        <input type="radio" value="android" name="device" th:field="*{device_type}"/> Android ($900)
-        <input type="radio" value="iphone" name="device" th:field="*{device_type}"/> iPhone ($950)
+        <input type="radio" value="android" name="device" /> Android ($900)
+        <input type="radio" value="iphone" name="device" /> iPhone ($950)
     </div>
 
     <div>
         <label for="deviceColor">Device Color:</label>
-        <select id="deviceColor" name="deviceColor" th:field="*{device_color}">
-            <option name="deviceColor" value="Black">Black</option>
-            <option name="deviceColor" value="White">White</option>
-            <option name="deviceColor" value="Blue">Blue</option>
+        <select id="deviceColor" name="deviceColor" >
+            <option value="Black">Black</option>
+            <option  value="White">White</option>
+            <option value="Blue">Blue</option>
         </select>
     </div>
 
     <div>
         <label for="deviceQuantity">Quantity:</label>
-        <input type="number" id="deviceQuantity" name="deviceQuantity" min="1" th:field="*{device_quantity}" required>
+        <input type="number" id="deviceQuantity" name="deviceQuantity" min="1"  required>
     </div>
 
     <button type="submit">Place Order</button>

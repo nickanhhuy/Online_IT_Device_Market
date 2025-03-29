@@ -12,21 +12,9 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order generateOrder(Order order) {
-        double price;
-        switch (order.getDevice_type().toLowerCase()) {
-            case "android":
-                price = 900.0;
-                break;
-            case "iphone":
-                price = 950.0;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid device type");
-        }
+    public void generateOrder(Order order) {
 
-        order.setTotal_price(price * order.getDevice_quantity());
-        return orderRepository.save(order);
+        orderRepository.save(order);
     }
 
     public List<Order> getAllOrders() {
