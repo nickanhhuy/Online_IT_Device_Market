@@ -6,12 +6,12 @@
 <body>
 <h2>Order Receipt</h2>
 
-<!--<p><strong>Name:</strong> <span th:text="${order.username}"></span></p>-->
-<!--<p><strong>Device Type:</strong> <span th:field="*{order.getDevice_type()}"></span></p>-->
-<!--<p><strong>Device Color:</strong> <span th:field="*{order.getDevice_color()}"></span></p>-->
-<!--<p><strong>Quantity:</strong> <span th:field="*{order.getDevice_quantity()}"></span></p>-->
-<!--<p><strong>Total Price:</strong> $<span th:field="*{order.getTotal_price()}"></span></p>-->
-<p th:text="${order.getDevice_type()}"></p>
+<p><strong>Name:</strong> <span th:text="${order.getUsername()}"></span></p>
+<p><strong>Device Type:</strong> <span th:text="${order.getDevice_type()}"></span></p>
+<p><strong>Device Color:</strong> <span th:text="${order.getDevice_color()}"></span></p>
+<p><strong>Quantity:</strong> <span th:text="${order.getDevice_quantity()}"></span></p>
+<p><strong>Total Price:</strong> <span th:text="${order.getTotal_price()}"></span></p>
+
 
 <hr>
 

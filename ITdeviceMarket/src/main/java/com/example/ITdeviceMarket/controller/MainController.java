@@ -85,13 +85,10 @@ public class MainController {
 
         double price = device.equalsIgnoreCase("android") ? 900 : 950;
         double totalAmount = price * deviceQuantity;
-
         Order order = new Order(username,device,deviceColor,deviceQuantity,totalAmount);
-
-
         orderService.generateOrder(order);
         model.addAttribute("order", order);
-        return "redirect:/receipt";
+        return "receipt";
     }
 
     // Receipt page
