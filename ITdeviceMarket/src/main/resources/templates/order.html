@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Order Page</title>
+    <meta charset="UTF-8">
+    <title>Order IT Device</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites/dist/css/foundation.min.css">
 </head>
 <body>
-<h2>Order IT Device</h2>
+<div class="grid-container">
+    <h2 class="text-center">Order IT Device</h2>
 
-<form th:action="@{/order}" method="post">
-    <div>
-        <label>Device Type:</label><br>
-        <input type="radio" value="android" name="device" /> Android ($900)
-        <input type="radio" value="iphone" name="device" /> iPhone ($950)
-    </div>
+    <form th:action="@{/order}" method="post" class="grid-x grid-padding-x">
 
-    <div>
-        <label for="deviceColor">Device Color:</label>
-        <select id="deviceColor" name="deviceColor" >
-            <option value="Black">Black</option>
-            <option  value="White">White</option>
-            <option value="Blue">Blue</option>
-        </select>
-    </div>
+        <div class="cell medium-6">
+            <label>Device Type:</label>
+            <input type="radio" value="android" name="device"> Android ($900)
+            <input type="radio" value="iphone" name="device"> iPhone ($950)
+        </div>
 
-    <div>
-        <label for="deviceQuantity">Quantity:</label>
-        <input type="number" id="deviceQuantity" name="deviceQuantity" min="1"  required>
-    </div>
+        <div class="cell medium-6">
+            <label for="deviceColor">Device Color:</label>
+            <select id="deviceColor" name="deviceColor" class="input-group-field">
+                <option value="Black">Black</option>
+                <option value="White">White</option>
+                <option value="Blue">Blue</option>
+            </select>
+        </div>
 
-    <button type="submit">Place Order</button>
-</form>
+        <div class="cell medium-6">
+            <label for="deviceQuantity">Quantity:</label>
+            <input type="number" id="deviceQuantity" name="deviceQuantity" min="1" required>
+        </div>
 
-<p th:if="${error != null}" style="color: red;" th:text="${error}"></p>
+        <div class="cell medium-12 text-center">
+            <button type="submit" class="button success">Place Order</button>
+        </div>
+    </form>
+
+    <p th:if="${error != null}" class="callout alert" th:text="${error}"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites/dist/js/foundation.min.js"></script>
 </body>
 </html>

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-    List<Order> findByUsername(String username); // Fetch all orders for a specific user
+    List<Order> findByUsername(String username);
 }

@@ -22,14 +22,13 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Register a new user
+    // User Registration
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt password
         userRepository.save(user);
     }
 
-
-    // Load user for authentication
+    // Load the email and assigned it as username
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
@@ -40,11 +39,10 @@ public class UserService implements UserDetailsService {
                 .roles(user.getRole())
                 .build();
     }
-
-//    // Find user by email
-//    public User findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
+    // Find user by email
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }
 
 

@@ -15,11 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-//        @Bean
-//        public UserDetailsService userDetailsService() {
-//            return new UserService(); // Custom service for user authentication
-//        }
-
         @Bean
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder(); // Encrypt passwords for security

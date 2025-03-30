@@ -8,11 +8,13 @@ import com.example.ITdeviceMarket.service.OrderService;
 import com.example.ITdeviceMarket.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,11 +37,6 @@ public class MainController {
     public String showRegistrationForm() {
         return "register";
     }
-
-
-
-    // Login page
-
 
     @PostMapping("/register")
     public String loginUser(@RequestParam String name,
@@ -122,20 +119,32 @@ public class MainController {
         model.addAttribute("orders", orders);
         return "history";
     }
+    @PostMapping("/history")
+    public String showOrderHistory(HttpServletRequest request,Model model) {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        List<Order> newOrders = new ArrayList<>();
+        List<Order> st = orderService.getAllOrders();
+        for (Order order : st) {
+            if(order.getUsername().equals(username)){}
+            newOrders.add(order);
+        }
+        model.addAttribute("orders", newOrders);
+        return "history";
+    }
 
     // Admin page (Admin only)
     @GetMapping("/admin")
-    public String showAdminDashboard(HttpSession session, Model model) {
-        String role = (String) session.getAttribute("role");
+    public String showAdminDashboard(Model model) {
 
-        if (!"ADMIN".equals(role)) {
-            return "redirect:/login";
-        }
 
         List<Order> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
 
-        double totalSales = orders.stream().mapToDouble(Order::getTotal_price).sum();
+        double totalSales = 0;
+        for(Order order : orders){
+            totalSales += order.getTotal_price();
+        }
         model.addAttribute("totalSales", totalSales);
 
         return "admin";

@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Order Receipt</title>
+    <link href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.3/dist/css/foundation.min.css" rel="stylesheet">
 </head>
 <body>
-<h2>Order Receipt</h2>
+<div class="grid-container">
+    <h2 class="text-center">Order Receipt</h2>
+    <div class="callout">
+        <p><strong>Name:</strong> <span th:text="${order.getUsername()}"></span></p>
+        <p><strong>Device Type:</strong> <span th:text="${order.getDevice_type()}"></span></p>
+        <p><strong>Device Color:</strong> <span th:text="${order.getDevice_color()}"></span></p>
+        <p><strong>Quantity:</strong> <span th:text="${order.getDevice_quantity()}"></span></p>
+        <p><strong>Total Price:</strong> <span th:text="${order.getTotal_price()}"></span></p>
+    </div>
+    <hr>
+    <div class="grid-x grid-padding-x text-center">
+        <div class="cell">
+            <form action="/order">
+                <button class="button success">Another Order</button>
+            </form>
+        </div>
+        <div class="cell">
+            <form action="/history">
+                <button class="button primary">Show Order History</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-<p><strong>Name:</strong> <span th:text="${order.getUsername()}"></span></p>
-<p><strong>Device Type:</strong> <span th:text="${order.getDevice_type()}"></span></p>
-<p><strong>Device Color:</strong> <span th:text="${order.getDevice_color()}"></span></p>
-<p><strong>Quantity:</strong> <span th:text="${order.getDevice_quantity()}"></span></p>
-<p><strong>Total Price:</strong> <span th:text="${order.getTotal_price()}"></span></p>
-
-
-<hr>
-
-<form action="/order">
-    <button type="submit">Another Order</button>
-</form>
-
-<form action="/history">
-    <button type="submit">Show Order History</button>
-</form>
-
+<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.3/dist/js/foundation.min.js"></script>
 </body>
 </html>
+

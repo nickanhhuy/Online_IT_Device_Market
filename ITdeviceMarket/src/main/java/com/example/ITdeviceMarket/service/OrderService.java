@@ -20,15 +20,10 @@ public class OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
-
-    public Order getOrderById(Integer orderId) {
-        Optional<Order> order = orderRepository.findById(orderId);
-        return order.orElse(null); // Return null if not found
-    }
-
     public List<Order> getOrdersByUsername(String username) {
         return orderRepository.findByUsername(username);
     }
+
 }
 
 
